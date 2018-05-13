@@ -4,7 +4,15 @@ from .models import Post
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 from django.shortcuts import redirect
+import json
 
+
+def btc_price(btcusd):
+	URL = "https://api.bitfinex.com/v1/pubticker/btcusd"
+	response = requests.request("GET", URL)
+	rep = response.json()
+	return render(btcusd, 'blog/price_coin.html', rep)
+    # return HttpResponse("BTC is %d$" % volume)
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
